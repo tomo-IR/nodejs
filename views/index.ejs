@@ -1,17 +1,19 @@
-<h1>TODO一覧</h1>
-<ul class="table-body">
-    <% items.forEach((item) => { %>
-        <li>
-            <div class="item-data">
-                <span class="id-column"><%= item.id %></span>
-                <span class="name-column"><%= item.name %></span>
-                <form action="delete/<%= item.id %>" method="post">
-                    <input type="submit" value="削除">
-                </form>
-                <a href="/edit/<%= item.id%>">編集</a>
+<%- include('header'); %>
 
-            </div>
-        </li>
-        <% }) %>
-</ul>
-<a href="/new">新規登録</a>
+    <h1>TODO一覧</h1>
+    <ul class="table-body">
+        <% items.forEach((item) => { %>
+            <li>
+                <div class="item-data">
+                    <span class="id-column"><%= item.id %></span>
+                    <span class="name-column"><%= item.name %></span>
+                    <form action="delete/<%= item.id %>" method="post">
+                        <input type="submit" value="削除">
+                    </form>
+                    <a href="/edit/<%= item.id%>">編集</a>
+
+                </div>
+            </li>
+            <% }) %>
+    </ul>
+    <a href="/new">新規登録</a>

@@ -1,0 +1,12 @@
+<header>
+    <p>ようこそ、
+        <%= locals.name %>さん</p>
+    <ul>
+        <li><a href="/index">TODO一覧</a></li>
+        <% if(locals.isLoggedIn){ %>
+            <li><a href="/logout">ログアウト</a></li>
+            <% } else{ %>
+                <li><a href="/login">ログイン</a></li>
+                <% } %>
+    </ul>
+</header>

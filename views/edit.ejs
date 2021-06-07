@@ -1,7 +1,8 @@
-<h1>編集ページ</h1>
-<form action="/update/<%= item.id %>" method="post">
-    <input value="<%= item.name %>" type="text" name="listName">
-    <input type="submit" value="更新する">
-</form>
+<%- include('header'); %>
+    <h1>編集ページ</h1>
+    <form action="/update/<%= item.id %>" method="post">
+        <input value="<%= item.name %>" type="text" name="listName">
+        <input type="submit" value="更新する">
+    </form>
 
-<a href="/index">一覧に戻る</a>
+    <a href="/index">一覧に戻る</a>
