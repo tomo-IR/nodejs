@@ -88,21 +88,69 @@ app.get('/new', (req, res) => {
 });
 
 app.get('/signup', (req, res) => {
-    res.render('signup.ejs');
+    res.render('signup.ejs', { errors: [] });
 });
 
-app.post('/signup', (req, res) => {
-    const username = req.body.name
-    const email = req.body.email
-    const password = req.body.password
-    connection.query(
-        'INSERT INTO users (name, email, password) VALUES (?, ?, ?)', [username, email, password],
-        (error, results) => {
-            // 一覧画面にリダイレクトしてください
-            res.redirect('/index');
+app.post('/signup',
+    (req, res, next) => {
+        console.log("入力値の空チェック")
+        const username = req.body.name;
+        const email = req.body.email;
+        const password = req.body.password;
+        const errors = [];
+
+        if (username === "") {
+            errors.push("ユーザー名がカラです。");
         }
-    );
-});
+        if (email === "") {
+            errors.push("メールアドレスがカラです。");
+        }
+        if (password === "") {
+            errors.push("パスワードがカラです。");
+        }
+        console.log(errors);
+        if (errors.length > 0) {
+            res.render("signup.ejs", { errors: errors });
+        } else {
+            next();
+        }
+    },
+
+    (req, res, next) => {
+        console.log("メアド重複チェック")
+        const email = req.body.email;
+        const errors = [];
+        connection.query(
+            'SELECT * FROM users WHERE email = ?', [email],
+            (error, results) => {
+                if (results.length > 0) {
+                    errors.push("このメールアドレスは既に使われています。")
+                    res.render("signup.ejs", { errors: errors });
+                } else {
+                    next();
+                }
+            }
+        );
+    },
+
+    (req, res) => {
+        console.log("ユーザー登録");
+        const username = req.body.name
+        const email = req.body.email
+        const password = req.body.password
+        connection.query(
+            'INSERT INTO users (name, email, password) VALUES (?, ?, ?)', [username, email, password],
+            (error, results) => {
+                req.session.userId = results.insertId;
+                req.session.username = username
+                console.log(req.session.userId);
+                console.log(req.session.username);
+
+
+                res.redirect('/index');
+            }
+        );
+    });
 
 
 app.post('/create', (req, res) => {
