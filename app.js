@@ -87,6 +87,24 @@ app.get('/new', (req, res) => {
     res.render('new.ejs');
 });
 
+app.get('/signup', (req, res) => {
+    res.render('signup.ejs');
+});
+
+app.post('/signup', (req, res) => {
+    const username = req.body.name
+    const email = req.body.email
+    const password = req.body.password
+    connection.query(
+        'INSERT INTO users (name, email, password) VALUES (?, ?, ?)', [username, email, password],
+        (error, results) => {
+            // 一覧画面にリダイレクトしてください
+            res.redirect('/index');
+        }
+    );
+});
+
+
 app.post('/create', (req, res) => {
     console.log(req.body.listName);
     connection.query(
