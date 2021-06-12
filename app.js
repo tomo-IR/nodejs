@@ -1,6 +1,7 @@
 const express = require('express');
 const mysql = require('mysql2');
 const session = require('express-session');
+const bcrypt = require('bcrypt');
 const app = express();
 
 app.use(express.static('public'));
@@ -48,24 +49,30 @@ app.get('/', (req, res) => {
 app.get('/login', (req, res) => {
     res.render('login.ejs');
 });
+
 app.post('/login', (req, res) => {
     const email = req.body.email;
     connection.query(
         'SELECT * FROM users WHERE email = ?', [email],
         (error, results) => {
             if (results.length > 0) {
-                if (req.body.password === results[0].password) {
-                    req.session.userId = results[0].id;
-                    req.session.username = results[0].name;
-                    res.redirect('/index');
-                } else {
-                    res.redirect('/login');
-                }
+                const plain = req.body.password;
+                const hash = results[0].password;
+                bcrypt.compare(plain, hash, (error, isEqual) => {
+                    if (isEqual) {
+                        req.session.userId = results[0].id;
+                        req.session.username = results[0].username;
+                        res.redirect('/index');
+                        console.log("ログインできました。")
+                    } else {
+                        res.redirect("/login");
+                        console.log("ログインできませんでした。")
+                    }
+                });
             } else {
                 res.redirect('/login');
             }
-        }
-    );
+        });
 });
 
 app.get("/logout", (req, res) => {
@@ -135,22 +142,24 @@ app.post('/signup',
 
     (req, res) => {
         console.log("ユーザー登録");
-        const username = req.body.name
-        const email = req.body.email
-        const password = req.body.password
-        connection.query(
-            'INSERT INTO users (name, email, password) VALUES (?, ?, ?)', [username, email, password],
-            (error, results) => {
-                req.session.userId = results.insertId;
-                req.session.username = username
-                console.log(req.session.userId);
-                console.log(req.session.username);
-
-
-                res.redirect('/index');
-            }
-        );
-    });
+        const username = req.body.name;
+        const email = req.body.email;
+        const password = req.body.password;
+        bcrypt.hash(password, 10, (error, hash) => {
+            connection.query(
+                'INSERT INTO users (name, email, password) VALUES (?, ?, ?)', [username, email, hash],
+                (error, results) => {
+                    console.log(results)
+                    req.session.userId = results.insertId;
+                    req.session.username = username;
+                    console.log(req.session.userId);
+                    console.log(req.session.username);
+                    res.redirect('/index');
+                }
+            );
+        });
+    }
+);
 
 
 app.post('/create', (req, res) => {
