@@ -36,7 +36,7 @@ app.use((req, res, next) => {
         res.locals.isLoggedIn = false;
         console.log("ログインしていない")
     } else {
-        res.locals.name = req.session.username;
+        res.locals.username = req.session.username;
         res.locals.isLoggedIn = true;
         console.log("ログイン中")
     }
@@ -61,7 +61,7 @@ app.post('/login', (req, res) => {
                 bcrypt.compare(plain, hash, (error, isEqual) => {
                     if (isEqual) {
                         req.session.userId = results[0].id;
-                        req.session.username = results[0].username;
+                        req.session.username = results[0].name;
                         res.redirect('/index');
                         console.log("ログインできました。")
                     } else {

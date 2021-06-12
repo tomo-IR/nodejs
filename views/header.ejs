@@ -1,9 +1,10 @@
 <header>
+    <a href="/">トップへ</a>
     <p>ようこそ、
-        <%= locals.name %>さん</p>
+        <%= locals.username %>さん</p>
     <ul>
-        <li><a href="/index">TODO一覧</a></li>
         <% if(locals.isLoggedIn){ %>
+            <li><a href="/index">TODO一覧</a></li>
             <li><a href="/logout">ログアウト</a></li>
             <% } else{ %>
                 <li><a href="/login">ログイン</a></li>

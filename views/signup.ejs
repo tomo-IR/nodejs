@@ -1,23 +1,21 @@
-<h1>新規ユーザー登録</h1>
-<% if (errors.length > 0) { %>
-    <ul>
-        <p>エラーメッセージ</p>
-        <% errors.forEach(error =>{ %>
-            <li>
-                <%= error %>
-            </li>
-            <%  }); %>
-    </ul>
-    <% } %>
-
-
-
-        <form action="/signup" method="post">
-            <p>ユーザー名</p>
-            <input type="text" name="name">
-            <p>メールアドレス</p>
-            <input type="text" name="email">
-            <p>パスワード</p>
-            <input type="password" name="password">
-            <input type="submit" value="登録">
-        </form>
+<%- include('header'); %>
+    <h1>新規ユーザー登録</h1>
+    <% if (errors.length > 0) { %>
+        <ul>
+            <p>エラーメッセージ</p>
+            <% errors.forEach(error =>{ %>
+                <li>
+                    <%= error %>
+                </li>
+                <%  }); %>
+        </ul>
+        <% } %>
+            <form action="/signup" method="post">
+                <p>ユーザー名</p>
+                <input type="text" name="name">
+                <p>メールアドレス</p>
+                <input type="text" name="email">
+                <p>パスワード</p>
+                <input type="password" name="password">
+                <input type="submit" value="登録">
+            </form>
