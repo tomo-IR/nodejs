@@ -94,6 +94,10 @@ app.get('/new', (req, res) => {
     res.render('new.ejs');
 });
 
+app.get('/golf', (req, res) => {
+    res.render('golf.ejs');
+});
+
 app.get('/signup', (req, res) => {
     res.render('signup.ejs', { errors: [] });
 });
