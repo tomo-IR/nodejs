@@ -81,17 +81,31 @@ var keyword = new Vue({
             var function_keyword = "&keyword=" + global_keyword;
             var keyword_url = global_url + "&areaCode=" + global_areacode + function_keyword;
             var res = await fetch(keyword_url);
+            console.log(keyword_url)
             var golfcourse_json = await res.json();
             global_golfcourse_json = golfcourse_json;
+            console.log(global_golfcourse_json)
+            var pagecount = golfcourse_json.pageCount;
+            console.log("ヒットしたページは" + pagecount);
+            //for文で全てのページの情報を取得
+            // for (let page = 1; page <= pagecount; page++) {
+            //     var keyword_url_page = keyword_url + "&page=" + page;
+
+            //     var res = await fetch(keyword_url_page);
+            //     var golfcourse_json = await res.json();
+            //     global_golfcourse_json = golfcourse_json;
+            //     console.log(global_golfcourse_json)
+
+
+            // }
+
+
+
+            // //for文で全てのページの情報を取得ここまで
+
+
 
             hit_zero();
-            console.log("保持したいキーワードは" + global_keyword);
-            console.log("初期化前のglobal_urlは" + global_url);
-            console.log(keyword_url);
-            console.log(golfcourse_json);
-            console.log(golfcourse_json.count);
-            console.log(golfcourse_json.pageCount);
-            console.log(golfcourse_json.Items[0].Item.golfCourseName);
             document.getElementById('api_output').innerHTML = golfcourse_json.count;
             list_delete();
             get_list();
@@ -106,21 +120,14 @@ async function inputChange(event) {
     var res = await fetch(areacode_url);
     var golfcourse_json = await res.json();
     global_golfcourse_json = golfcourse_json;
-
     hit_zero();
-
+    document.getElementById('api_output').innerHTML = golfcourse_json.count;
+    list_delete();
+    get_list();
     console.log(global_areacode);
     console.log(global_url);
     console.log(golfcourse_json);
-    console.log(golfcourse_json.count);
-    console.log(golfcourse_json.pageCount);
-    console.log(golfcourse_json.Items[1].Item.golfCourseName);
-    document.getElementById('api_output').innerHTML = golfcourse_json.count;
 
-    console.log("保持されたキーワードは" + global_keyword);
-    console.log("保持されたエリアコードは" + global_areacode);
-    list_delete();
-    get_list();
 }
 
 function list_delete() {
@@ -134,17 +141,14 @@ function get_list() {
     for (let i = 0; i < global_golfcourse_json.hits; i++) {
         console.log(i);
         console.log(global_golfcourse_json.Items[i].Item.golfCourseName);
-
         document.getElementById('search_result');
         var newElement = document.createElement("li"); // p要素作成
         var newContent = document.createTextNode(global_golfcourse_json.Items[i].Item.golfCourseName); // テキストノードを作成
         newElement.appendChild(newContent); // p要素にテキストノードを追加
         newElement.setAttribute("id", "list_" + i); // p要素にidを設定
-
         var parentDiv = document.getElementById("search_result");
         parentDiv.appendChild(newElement, parentDiv.firstChild);
     }
-
 }
 
 function hit_zero() {
@@ -156,4 +160,16 @@ function hit_zero() {
     } else {
         console.log(" 該当あり");
     }
+}
+
+function show_log() {
+    console.log(global_areacode);
+    console.log(global_url);
+    console.log(golfcourse_json);
+    console.log(golfcourse_json.count);
+    console.log(golfcourse_json.pageCount);
+    console.log(golfcourse_json.Items[1].Item.golfCourseName);
+
+    console.log("保持されたキーワードは" + global_keyword);
+    console.log("保持されたエリアコードは" + global_areacode);
 }
