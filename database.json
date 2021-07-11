@@ -1,8 +1,0 @@
-{
-    "dev": {
-        "driver": "mysql2",
-        "user": "root",
-        "password": "",
-        "database": "nodejs"
-    }
-}

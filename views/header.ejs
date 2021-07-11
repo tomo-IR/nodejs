@@ -1,3 +1,8 @@
+<head>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.js"></script>
+    <!-- <script type="text/javascript" src='/javascripts/test.js'></script> -->
+</head>
 <header>
     <a href="/">トップへ</a>
     <p>ようこそ、
@@ -6,6 +11,7 @@
         <% if(locals.isLoggedIn){ %>
             <li><a href="/index">TODO一覧</a></li>
             <li><a href="/logout">ログアウト</a></li>
+            <li><a href="/golf">ゴルフ場検索</a></li>
             <% } else{ %>
                 <li><a href="/login">ログイン</a></li>
                 <li><a href="/signup">新規ユーザー登録</a></li>

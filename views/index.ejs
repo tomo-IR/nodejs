@@ -9,7 +9,7 @@
                     <span class="id-column"><%= item.id %></span>
                     <span class="name-column"><%= item.name %></span>
                     <form action="delete/<%= item.id %>" method="post">
-                        <input type="submit" value="削除">
+                        <input type="submit" value="削除" class="delete_button">
                     </form>
                     <a href="/edit/<%= item.id%>">編集</a>
 

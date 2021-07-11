@@ -1,0 +1,29 @@
+<%- include('header'); %>
+    <h1>ゴルフ場を検索</h1>
+    <div id="form_input">
+        <form action="">
+            <p>キーワード</p>
+            <input type="text" id="search_keyword" @input="onInput_keyword">
+        </form>
+    </div>
+    <p>エリア</p>
+
+    <select id="address">
+        <option value="0">選択してください</option>
+        <option v-for="option in options" v-bind:key="option.id" v-bind:value="option.id">
+            {{ option.name }}
+        </option>
+    </select>
+
+    <p>
+        <span id="api_output"></span>
+        <span>件ヒット</span>
+    </p>
+
+    <ul id="search_result">
+
+    </ul>
+
+    <script type="text/javascript" src='/javascripts/test.js' defer></script>
+
+    <!-- <script src="./main.js"></script> -->

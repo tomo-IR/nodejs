@@ -11,7 +11,7 @@ app.use(express.urlencoded({ extended: false }));
 const connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: '',
+    password: 'password',
     database: 'nodejs'
 });
 connection.connect((err) => {
@@ -34,7 +34,7 @@ app.use((req, res, next) => {
     if (req.session.userId === undefined) {
         res.locals.username = 'ゲスト';
         res.locals.isLoggedIn = false;
-        console.log("ログインしていない")
+        console.log("ログインしていないので実行しません")
     } else {
         res.locals.username = req.session.username;
         res.locals.isLoggedIn = true;
@@ -92,6 +92,10 @@ app.get('/index', (req, res) => {
 
 app.get('/new', (req, res) => {
     res.render('new.ejs');
+});
+
+app.get('/golf', (req, res) => {
+    res.render('golf.ejs');
 });
 
 app.get('/signup', (req, res) => {
@@ -164,6 +168,7 @@ app.post('/signup',
 
 app.post('/create', (req, res) => {
     console.log(req.body.listName);
+    console.log("投稿するよ");
     connection.query(
         'INSERT INTO lists (name) VALUES(?)', [req.body.listName],
         (error, results) => {
